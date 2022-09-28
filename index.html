@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Registre de naus i solars industrials de Santa Perpètua de Mogoda</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/RegistredenausisolarsaSPM_0.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[41.5144751097901,2.1313959485713743],[41.55836837165465,2.2108436219163634]]);
+var BaseMapCarto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 28}).addTo(map);        
+var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        function pop_RegistredenausisolarsaSPM_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">fid</th>\
+                        <td>' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">codi_mun</th>\
+                        <td>' + (feature.properties['codi_mun'] !== null ? autolinker.link(feature.properties['codi_mun'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">nom_mun</th>\
+                        <td>' + (feature.properties['nom_mun'] !== null ? autolinker.link(feature.properties['nom_mun'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">codi_pae</th>\
+                        <td>' + (feature.properties['codi_pae'] !== null ? autolinker.link(feature.properties['codi_pae'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Poligon</th>\
+                        <td>' + (feature.properties['Poligon'] !== null ? autolinker.link(feature.properties['Poligon'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">codi_nau</th>\
+                        <td>' + (feature.properties['codi_nau'] !== null ? autolinker.link(feature.properties['codi_nau'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">refcad</th>\
+                        <td>' + (feature.properties['refcad'] !== null ? autolinker.link(feature.properties['refcad'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">tipus</th>\
+                        <td>' + (feature.properties['tipus'] !== null ? autolinker.link(feature.properties['tipus'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">activitat</th>\
+                        <td>' + (feature.properties['activitat'] !== null ? autolinker.link(feature.properties['activitat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">empresa</th>\
+                        <td>' + (feature.properties['empresa'] !== null ? autolinker.link(feature.properties['empresa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">adreca</th>\
+                        <td>' + (feature.properties['adreca'] !== null ? autolinker.link(feature.properties['adreca'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">tip_via</th>\
+                        <td>' + (feature.properties['tip_via'] !== null ? autolinker.link(feature.properties['tip_via'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">nom_via</th>\
+                        <td>' + (feature.properties['nom_via'] !== null ? autolinker.link(feature.properties['nom_via'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">num_via</th>\
+                        <td>' + (feature.properties['num_via'] !== null ? autolinker.link(feature.properties['num_via'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">num_via2</th>\
+                        <td>' + (feature.properties['num_via2'] !== null ? autolinker.link(feature.properties['num_via2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">foto</th>\
+                        <td>' + (feature.properties['foto'] !== null ? autolinker.link(feature.properties['foto'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">comentaris</th>\
+                        <td>' + (feature.properties['comentaris'] !== null ? autolinker.link(feature.properties['comentaris'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_RegistredenausisolarsaSPM_0_0(feature) {
+            switch(String(feature.properties['tipus'])) {
+                case 'NAU':
+                    return {
+                pane: 'pane_RegistredenausisolarsaSPM_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.3,
+                fillColor: 'rgba(238,15,15,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'SOLAR':
+                    return {
+                pane: 'pane_RegistredenausisolarsaSPM_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.3,
+                fillColor: 'rgba(31,120,180,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_RegistredenausisolarsaSPM_0');
+        map.getPane('pane_RegistredenausisolarsaSPM_0').style.zIndex = 400;
+        map.getPane('pane_RegistredenausisolarsaSPM_0').style['mix-blend-mode'] = 'normal';
+        var layer_RegistredenausisolarsaSPM_0 = new L.geoJson(json_RegistredenausisolarsaSPM_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_RegistredenausisolarsaSPM_0',
+            layerName: 'layer_RegistredenausisolarsaSPM_0',
+            pane: 'pane_RegistredenausisolarsaSPM_0',
+            onEachFeature: pop_RegistredenausisolarsaSPM_0,
+            style: style_RegistredenausisolarsaSPM_0_0,
+        });
+        bounds_group.addLayer(layer_RegistredenausisolarsaSPM_0);
+        map.addLayer(layer_RegistredenausisolarsaSPM_0);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Registre de naus i solars industrials de Santa Perpètua de Mogoda</h2>';
+            };
+            title.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Registre de naus i solars a SPM<br /><table><tr><td style="text-align: center;"><img src="legend/RegistredenausisolarsaSPM_0_NAU0.png" /></td><td>NAU</td></tr><tr><td style="text-align: center;"><img src="legend/RegistredenausisolarsaSPM_0_SOLAR1.png" /></td><td>SOLAR</td></tr></table>': layer_RegistredenausisolarsaSPM_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"Poligon": "str","tipus": "str","activitat": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Poligon = document.createElement('div');
+            div_Poligon.id = "div_Poligon";
+            div_Poligon.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Poligon);
+            sel_Poligon = document.createElement('select');
+            sel_Poligon.multiple = true;
+            sel_Poligon.size = 12;
+            sel_Poligon.id = "sel_Poligon";
+            var Poligon_options_str = "<option value='' unselected></option>";
+            sel_Poligon.onchange = function(){filterFunc()};
+            Poligon_options_str  += '<option value="Polígon Industrial Ca n&apos;Oller">Polígon Industrial Ca n&apos;Oller</option>';
+            Poligon_options_str  += '<option value="Polígon Industrial Santiga">Polígon Industrial Santiga</option>';
+            Poligon_options_str  += '<option value="Polígon Industrial Santiga. Sector del Camí de Can Llobet">Polígon Industrial Santiga. Sector del Camí de Can Llobet</option>';
+            Poligon_options_str  += '<option value="Polígon Industrial Torre del Rector">Polígon Industrial Torre del Rector</option>';
+            Poligon_options_str  += '<option value="Polígon industrial Camp de les Pereres">Polígon industrial Camp de les Pereres</option>';
+            Poligon_options_str  += '<option value="Polígon industrial Can Bernades-Subirà">Polígon industrial Can Bernades-Subirà</option>';
+            Poligon_options_str  += '<option value="Polígon industrial Can Vinyalets">Polígon industrial Can Vinyalets</option>';
+            Poligon_options_str  += '<option value="Polígon industrial Can Vinyals">Polígon industrial Can Vinyals</option>';
+            Poligon_options_str  += '<option value="Polígon industrial La Creueta">Polígon industrial La Creueta</option>';
+            Poligon_options_str  += '<option value="Polígon industrial La Florida">Polígon industrial La Florida</option>';
+            Poligon_options_str  += '<option value="Polígon industrial Les Minetes-CIM Vallès">Polígon industrial Les Minetes-CIM Vallès</option>';
+            sel_Poligon.innerHTML = Poligon_options_str;
+            div_Poligon.appendChild(sel_Poligon);
+            var lab_Poligon = document.createElement('div');
+            lab_Poligon.innerHTML = 'Poligon';
+            lab_Poligon.className = 'filterlabel';
+            div_Poligon.appendChild(lab_Poligon);
+            var reset_Poligon = document.createElement('div');
+            reset_Poligon.innerHTML = 'clear filter';
+            reset_Poligon.className = 'filterlabel';
+            reset_Poligon.onclick = function() {
+                var options = document.getElementById("sel_Poligon").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Poligon.appendChild(reset_Poligon);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_tipus = document.createElement('div');
+            div_tipus.id = "div_tipus";
+            div_tipus.className= "filterselect";
+            document.getElementById("menu").appendChild(div_tipus);
+            sel_tipus = document.createElement('select');
+            sel_tipus.multiple = true;
+            sel_tipus.size = 3;
+            sel_tipus.id = "sel_tipus";
+            var tipus_options_str = "<option value='' unselected></option>";
+            sel_tipus.onchange = function(){filterFunc()};
+            tipus_options_str  += '<option value="NAU">NAU</option>';
+            tipus_options_str  += '<option value="SOLAR">SOLAR</option>';
+            sel_tipus.innerHTML = tipus_options_str;
+            div_tipus.appendChild(sel_tipus);
+            var lab_tipus = document.createElement('div');
+            lab_tipus.innerHTML = 'tipus';
+            lab_tipus.className = 'filterlabel';
+            div_tipus.appendChild(lab_tipus);
+            var reset_tipus = document.createElement('div');
+            reset_tipus.innerHTML = 'clear filter';
+            reset_tipus.className = 'filterlabel';
+            reset_tipus.onclick = function() {
+                var options = document.getElementById("sel_tipus").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_tipus.appendChild(reset_tipus);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_activitat = document.createElement('div');
+            div_activitat.id = "div_activitat";
+            div_activitat.className= "filterselect";
+            document.getElementById("menu").appendChild(div_activitat);
+            sel_activitat = document.createElement('select');
+            sel_activitat.multiple = true;
+            sel_activitat.size = 3;
+            sel_activitat.id = "sel_activitat";
+            var activitat_options_str = "<option value='' unselected></option>";
+            sel_activitat.onchange = function(){filterFunc()};
+            activitat_options_str  += '<option value="NO">NO</option>';
+            activitat_options_str  += '<option value="SI">SI</option>';
+            sel_activitat.innerHTML = activitat_options_str;
+            div_activitat.appendChild(sel_activitat);
+            var lab_activitat = document.createElement('div');
+            lab_activitat.innerHTML = 'activitat';
+            lab_activitat.className = 'filterlabel';
+            div_activitat.appendChild(lab_activitat);
+            var reset_activitat = document.createElement('div');
+            reset_activitat.innerHTML = 'clear filter';
+            reset_activitat.className = 'filterlabel';
+            reset_activitat.onclick = function() {
+                var options = document.getElementById("sel_activitat").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_activitat.appendChild(reset_activitat);
+        </script>
+    </body>
+</html>
